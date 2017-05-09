@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<billing>
+<item>
+  <id>1</id>
+  <customer>Vandelay Industries</customer>
+  <type>Development</type>
+  <date>4/5/2011</date>
+  <description>Update jQuery animation on Intranet homepage</description>
+  <hours>2</hours>
+  </item>
+<item>
+  <id>2</id>
+  <customer>Dunder Mifflin</customer>
+  <type>coding</type>
+  <date>4/5/2011</date>
+  <description>Update jQuery</description>
+  <hours>5</hours>
+  </item>
+  </billing>

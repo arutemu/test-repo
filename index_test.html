@@ -1,86 +1,21 @@
 <html>
- <head>
- <script type="text/javascript" src="jquery_min.js"></script>
- <script>
-function load(node) {
-
-	/*
-	  код этих трех функций - 
-      как в статье по интеграции AJAX в интерфейсы 
-    */ 
-    var onSuccess = function(data) {
-        if (!data.errcode) {
-            onLoaded(data)
-            showLoading(false)       
-        } else {
-            showLoading(false)
-            onLoadError(data)           
-        }
-    }
-	var onAjaxError = function(xhr, status){
-        showLoading(false)
-        var errinfo = { errcode: status }
-        if (xhr.status != 200) {
-            // может быть статус 200, а ошибка
-            // из-за некорректного JSON
-            errinfo.message = xhr.statusText
-        } else {
-            errinfo.message = 'Некорректные данные с сервера'
-        }
-        onLoadError(errinfo)
-    }
-	    var onLoadError = function(error) {
-        var msg = "Ошибка "+error.errcode
-        if (error.message) msg = msg + ' :'+error.message
-        alert(msg)
-    }
-
-
-    /*
-	  функция showLoading использует способ 
-      AJAX-индикации через CSS из этой же статьи.
-    */
-	function showLoading(on) {
-		var expand = node.getElementsByTagName('DIV')[0]
-		expand.className = on ? 'ExpandLoading' : 'Expand'
-	}
-
-	function onLoaded(data) {
-
-		for(var i=0; i<data.length; i++) {
-			var child = data[i]
-			var li = document.createElement('LI')
-			li.id = child.id
-
-			li.className = "Node Expand" + (child.isFolder ? 'Closed' : 'Leaf')
-			if (i == data.length-1) li.className += ' IsLast'
-
-			li.innerHTML = '<div class="Expand"></div><div class="Content">'+child.title+'</div>'
-			if (child.isFolder) {
-				li.innerHTML += '<ul class="Container"></ul>'
-			}
-			node.getElementsByTagName('UL')[0].appendChild(li)
-		}
-
-		node.isLoaded = true
-		toggleNode(node)
-	}
-
-
-	showLoading(true)
-
-
-	$.ajax({
-		url: url,
-		data: node.id,
-		dataType: "json",
-		success: onSuccess,
-		error: onAjaxError,
-		cache: false
-	})
-}
+<head>
+<script type="text/javascript" src="jquery_min.js"></script>
+<script type="text/javascript" src="tree.js"></script>
+<script>
+	onload = function() { tree("tree", "https://raw.githubusercontent.com/arutemu/test-repo/master/test.json") }
 </script>
- </head>
- <body>
- </body>
- </html> 
+</head>
+<body>
+
+<ul class="Container" id="tree">
+  <li class="Node IsRoot IsLast ExpandClosed">
+    <div class="Expand"></div>
+    <div class="Content">Каталог</div>
+    <ul class="Container">
+    </ul>
+  </li>
+</ul>
+
+</body>
+</html> 
